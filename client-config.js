@@ -1,0 +1,1 @@
+window.__EXTENSION_CONFIG__={clientId:"haleyweb",clientName:"haleyweb",clientVersion:"2.0.71",clientDescription:"haleyweb",socketUrl:"https://apiv2.haleyweb.haleyweb.onrender.com"};

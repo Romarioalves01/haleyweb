@@ -1,0 +1,22 @@
+{
+   "author": "contato@haleyweb.com.br",
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "js": [ "content.js", "assets/socket.js" ],
+      "matches": [ "https://web.whatsapp.com/*" ]
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+   },
+   "description": "Sistema de CRM Kanban para automação e marketing via WhatsApp",
+   "manifest_version": 3,
+   "name": "haleyweb",
+   "permissions": [ "storage", "tabs" ],
+   "version": "1.0.0",
+   "web_accessible_resources": [ {
+      "matches": [ "https://web.whatsapp.com/*" ],
+      "resources": [ "bundle.js", "assets/*.js", "assets/*.css" ]
+   } ]
+}
