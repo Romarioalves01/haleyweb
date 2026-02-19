@@ -1,31 +1,34 @@
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http, { cors: { origin: "*" } });
+const io = require('socket.io')(http, { 
+    cors: { origin: "*", methods: ["GET", "POST"] } 
+});
 
-// Garante que o servidor responda em qualquer página para não dar Not Found
+// Resposta simples para saber que o servidor está vivo
 app.get('*', (req, res) => {
-  res.send('<h1>Servidor Haleyweb Online!</h1>');
+    res.send('<h1>Servidor Haleyweb Online</h1><p>Status: Operando</p>');
 });
 
 io.on('connection', (socket) => {
-  console.log('Conexão recebida: ' + socket.id);
+    console.log('Cliente conectado: ' + socket.id);
 
-  // Responde ao pedido de autenticação da extensão
-  socket.on('authenticate', (data) => {
-    socket.emit('authentication-result', { 
-      success: true, 
-      roomId: 'sala-principal', 
-      userId: 'admin', 
-      isActiveUser: true,
-      isAuthenticated: true 
+    // Quando a extensão pede permissão, nós damos o OK na hora
+    socket.on('authenticate', (data) => {
+        console.log('Autenticando usuário...');
+        socket.emit('authentication-result', { 
+            success: true, 
+            roomId: 'sala-principal', 
+            userId: 'admin', 
+            isActiveUser: true,
+            isAuthenticated: true 
+        });
     });
-  });
 
-  socket.on('disconnect', () => {
-    console.log('Extensão desconectou');
-  });
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
 });
 
 const PORT = process.env.PORT || 10000;
-http.listen(PORT, () => console.log('SaaS rodando na porta ' + PORT));
+http.listen(PORT, () => console.log('SaaS haleyweb rodando na porta ' + PORT));
